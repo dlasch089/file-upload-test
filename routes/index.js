@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 
 const Picture = require("../models/pictures");
 
@@ -9,8 +8,15 @@ const multer = require("multer");
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
-  Picture.find((err, pictures) => {
-    res.render("index", { pictures });
+  Picture.find({}, (err, picture) => {
+    if (err) {
+      next(err);
+    } else {
+      const data = {
+        pictures: picture
+      };
+      res.render("index", data);
+    }
   });
 });
 
