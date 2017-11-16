@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const logger = require("morgan");
@@ -7,17 +8,14 @@ const mongoose = require("mongoose");
 
 const index = require("./routes/index");
 
-mongoose.Promise = Promise;
-mongoose.connect(
-  "mongodb://heroku_jg1prj8g:rmreu12k10p3jp1g9l19k7n4j8@ds159254.mlab.com:59254/heroku_jg1prj8g",
-  {
-    keepAlive: true,
-    reconnectTries: Number.MAX_VALUE,
-    useMongoClient: true
-  }
-);
-
 const app = express();
+
+mongoose.Promise = Promise;
+mongoose.connect(process.env.MONGODB_URI, {
+  keepAlive: true,
+  reconnectTries: Number.MAX_VALUE,
+  useMongoClient: true
+});
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
