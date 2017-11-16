@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 
 const Picture = require("../models/pictures");
 
@@ -8,7 +9,9 @@ const multer = require("multer");
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
-  res.render("index", { title: "Express" });
+  Picture.find((err, pictures) => {
+    res.render("index", { pictures });
+  });
 });
 
 // Route to upload from project base path
